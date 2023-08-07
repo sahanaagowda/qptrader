@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
+            text-align: left;
             margin: 0;
             padding: 20px;
             background-color: #f5f5f5;
@@ -37,6 +37,16 @@
     </style>
 </head>
 <body>
+	<center>
+	<section class="hero is-success is-fullheight">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+             Hi {{g.user.username}} #{{g.user.id}}
+            </h1>
+          </div>
+        </div>
+      </section>
     <h1>Welcome to Quickprop Trader</h1>
     <div>
         <h2>Buy Stocks</h2>
@@ -99,6 +109,7 @@
     document.getElementById('buyButton').addEventListener('click', placeMarketBuyOrder);
 
     </script>
+	</center>
    <div class="field">
                  <p class="control">
                    <button >
