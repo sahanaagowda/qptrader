@@ -53,7 +53,17 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/profile')
+# Breathing page
+@app.route('/breathing1')
+def breathing1():
+ return render_template('breathing.html')
+
+# Feedback page
+@app.route('/feedback')
+def feedback():
+    return render_template('feedback.html')
+
+@app.route('/trade')
 def profile():
     if not g.user:
         return redirect(url_for('login'))
@@ -63,3 +73,6 @@ def profile():
 def logout():
      session.pop('user_id',None)
      return render_template('login.html')
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000,  debug=True)
+
