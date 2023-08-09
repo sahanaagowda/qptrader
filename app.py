@@ -52,6 +52,18 @@ def login():
         return redirect(url_for('login'))
 
     return render_template('login.html')
+# buy order
+@app.route('/place_order', methods=['POST'])
+def place_order():
+    try:
+        # Here, you can add the code to interact with the Zerodha Connect API
+        # and place the order. Replace this with your actual logic.
+        # You might want to use a more secure way to store API key and access token.
+        result = "Order placed successfully"
+    except Exception as e:
+        result = "Error placing order: {}".format(str(e))
+
+    return result
 
 # Breathing page
 @app.route('/breathing1')
