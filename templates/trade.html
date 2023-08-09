@@ -60,6 +60,33 @@
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" value="10" placeholder="Enter quantity">
         <button id="buyButton">Buy</button>
+ <script>
+        const apiKey = 'b7gsr62trc3vytqj';
+        const accessToken = 'SdtP3DLysoZEJ0VxbKRNJbibXS95ZMwv';
+
+        // Function to place a market buy order
+        function placeMarketBuyOrder() {
+            const orderParams = {
+                exchange: 'NSE',
+                tradingsymbol: 'Infy',
+                quantity: 1,
+                transaction_type: 'BUY',
+                order_type: 'MARKET'
+            };
+
+            // Call Zerodha Connect API to place the order
+            ZerodhaConnect.placeOrder(apiKey, accessToken, orderParams)
+                .then(response => {
+                    console.log('Order placed successfully:', response);
+                })
+                .catch(error => {
+                    console.error('Error placing order:', error);
+                });
+        }
+
+        // Attach click event handler to the "Buy" button
+        document.getElementById('buyButton').addEventListener('click', placeMarketBuyOrder);
+    </script>
     </div>
     <div>
         <h2>Sell Stocks</h2>
@@ -76,39 +103,6 @@
     </div>
     <button class="button button5" id="buyButton">Reset</button>
     <button class="button button4" id="sellButton">Home</button>
-
-
-<script src="https://your-zerodha-connect-library-link.js"></script>
-<script>
-    // Replace these values with your actual API credentials
-    const apiKey = 'b7gsr62trc3vytqj';
-    const accessToken = 'skbanmhhpyhw5oba6reu5gr3mrq5j7x8';
-
-    // Function to place a market buy order
-    function placeMarketBuyOrder() {
-        const orderParams = {
-            exchange: 'NSE', // Replace with the desired exchange
-            tradingsymbol: 'AAPL', // Replace with the desired stock symbol
-            quantity: 1, // Replace with the desired quantity
-            transaction_type: 'BUY',
-            order_type: 'MARKET'
-        };
-
-        // Call Zerodha Connect API to place the order
-        // Refer to the documentation for the exact method and parameters
-        ZerodhaConnect.placeOrder(apiKey, accessToken, orderParams)
-            .then(response => {
-                console.log('Order placed successfully:', response);
-            })
-            .catch(error => {
-                console.error('Error placing order:', error);
-            });
-    }
-
-    // Attach click event handlers to the buttons
-    document.getElementById('buyButton').addEventListener('click', placeMarketBuyOrder);
-
-    </script>
 	</center>
    <div class="field">
                  <p class="control">
