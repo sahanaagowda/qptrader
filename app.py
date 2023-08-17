@@ -28,7 +28,7 @@ app.secret_key = 'somesecretkeythatonlyishouldknow'
 
 # Replace with your actual API key and access token
 api_key = "b7gsr62trc3vytqj"
-access_token = "PMJQyHKj9xBx56ANgXoMf4tIG3JelKHD"
+access_token = ""
 
 @app.before_request 
 def before_request():
