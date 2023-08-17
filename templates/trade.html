@@ -35,10 +35,15 @@
             background-color: #0056b3;
         }
     </style>
+    <script>
+      function showAlert(message) {
+          alert(message);
+      }
+  </script>
 </head>
 <body>
-	<center>
-	<section class="hero is-success is-fullheight">
+  <center>
+    <section class="hero is-success is-fullheight">
         <div class="hero-body">
           <div class="container">
             <h1 class="title">
@@ -49,61 +54,43 @@
       </section>
     <h1>Welcome to Quickprop Trader</h1>
     <div>
-        <h2>Buy Stocks</h2>
-        <label for="stockSymbol">Stock Symbol:</label>
-	<select name="cars" id="stockSymbolBuy">
-		  <option value="NIFTY">Nifty</option>
-		  <option value="SUNPHARMA">Sunpharma</option>
-		  <option value="TCS">TCS</option>
-		  <option value="WIPRO">Wipro</option>
-	</select>
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" value="10" placeholder="Enter quantity">
-        <button id="buyButton">Buy</button>
- <script>
-        const apiKey = 'b7gsr62trc3vytqj';
-        const accessToken = 'SdtP3DLysoZEJ0VxbKRNJbibXS95ZMwv';
-
-        // Function to place a market buy order
-        function placeMarketBuyOrder() {
-            const orderParams = {
-                exchange: 'NSE',
-                tradingsymbol: 'Infy',
-                quantity: 1,
-                transaction_type: 'BUY',
-                order_type: 'MARKET'
-            };
-
-            // Call Zerodha Connect API to place the order
-            ZerodhaConnect.placeOrder(apiKey, accessToken, orderParams)
-                .then(response => {
-                    console.log('Order placed successfully:', response);
-                })
-                .catch(error => {
-                    console.error('Error placing order:', error);
-                });
-        }
-
-        // Attach click event handler to the "Buy" button
-        document.getElementById('buyButton').addEventListener('click', placeMarketBuyOrder);
-    </script>
-    </div>
-    <div>
-        <h2>Sell Stocks</h2>
-        <label for="stockSymbolSell">Stock Symbol:</label>
-        <select name="Stock" id="stockSymbolSell">
-                  <option value="NIFTY">Nifty</option>
-                  <option value="SUNPHARMA">Sunpharma</option>
-                  <option value="TCS">TCS</option>
-                  <option value="WIPRO">Wipro</option>
-        </select>
-        <label for="quantitySell">Quantity:</label>
-        <input type="number" id="quantitySell" value="10" placeholder="Enter quantity">
-        <button class="button button3" id="sellButton">Sell</button>
-    </div>
+      <h2>Buy Stocks</h2>
+       <form action="/place_order" method="post" onsubmit="showAlert('Buy order placed.');">
+      <label for="stockSymbolBuy">Stock Symbol</label>
+      <select name="stockSymbolBuy" id="stockSymbolBuy">
+                <option value="NIFTY">Nifty</option>
+                <option value="SUNPHARMA">Sunpharma</option>
+                <option value="TCS">TCS</option>
+                <option value="WIPRO">Wipro</option>
+                <option value="INFY">Infy</option>
+      </select>
+      <label for="quantity">Quantity</label>
+      <input type="number" name="quantity" id="quantity" placeholder="Enter quantity" required>
+       <button type="submit" id="buyButton">Buy</button>
+            </form>
+  </div>
+  <div>
+    <h2>Sell Stocks</h2>
+    <form action="/place_sell_order" method="post" onsubmit="showAlert('Sell order placed.');">
+    <label for="stockSymbolSell">Stock Symbol</label>    
+        <select name="stockSymbolSell" id="stockSymbolSell">
+              <option value="NIFTY">Nifty</option>
+              <option value="SUNPHARMA">Sunpharma</option>
+              <option value="TCS">TCS</option>
+              <option value="WIPRO">Wipro</option>
+              <option value="INFY" >Infy</option>
+    </select>
+    <label for="quantity">Quantity</label>
+    <input type="number" name="quantity" id="quantity" placeholder="Enter quantity" required>
+          <button type="submit" id="sellButton" class="button button3">Sell</button>
+          </form>
+</div>
     <button class="button button5" id="buyButton">Reset</button>
     <button class="button button4" id="sellButton">Home</button>
-	</center>
+
+
+
+  </center>
    <div class="field">
                  <p class="control">
                    <button >
