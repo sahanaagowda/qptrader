@@ -1,4 +1,3 @@
-app.py
 from flask import (
     Flask,
     g,
@@ -8,8 +7,8 @@ from flask import (
     session,
     url_for
 )
-
-class User:
+ 
+class User: 
     def __init__(self, id, username, password):
         self.id = id
         self.username = username
@@ -27,7 +26,11 @@ users.append(User(id=3, username='Carlos', password='somethingsimple'))
 app = Flask(__name__)
 app.secret_key = 'somesecretkeythatonlyishouldknow'
 
-@app.before_request
+# Replace with your actual API key and access token
+api_key = "b7gsr62trc3vytqj"
+access_token = "PMJQyHKj9xBx56ANgXoMf4tIG3JelKHD"
+
+@app.before_request 
 def before_request():
     g.user = None
 
@@ -52,19 +55,6 @@ def login():
         return redirect(url_for('login'))
 
     return render_template('login.html')
-# buy order
-@app.route('/place_order', methods=['POST'])
-def place_order():
-    try:
-        # Here, you can add the code to interact with the Zerodha Connect API
-        # and place the order. Replace this with your actual logic.
-        # You might want to use a more secure way to store API key and access token.
-        result = "Order placed successfully"
-    except Exception as e:
-        result = "Error placing order: {}".format(str(e))
-
-    return result
-
 # Breathing page
 @app.route('/breathing1')
 def breathing1():
@@ -81,10 +71,68 @@ def profile():
         return redirect(url_for('login'))
 
     return render_template('trade.html')
+@app.route('/place_order', methods=['POST'])
+def place_order():
+    from kiteconnect import KiteConnect
+
+    kite = KiteConnect(api_key=api_key)
+    kite.set_access_token(access_token)
+    
+    stock_symbol = request.form['stockSymbolBuy']
+    quantity = int(request.form['quantity'])
+
+    # Define order details for a market buy order
+    order_details = {
+        "tradingsymbol": stock_symbol,
+        "exchange": "NSE",
+        "transaction_type": "BUY",
+        "quantity": quantity,
+        "order_type": "MARKET",
+        "price": None,
+        "product": "MIS"
+    }
+
+    # Place the buy order
+    try:
+        order_id = kite.place_order(variety=kite.VARIETY_REGULAR, **order_details)
+        result = "Buy order placed successfully. Order ID: " + str(order_id)
+    except Exception as e:
+        result = "Error placing buy order: " + str(e)
+
+    return result
+@app.route('/place_sell_order', methods=['POST'])
+def place_sell_order():
+    from kiteconnect import KiteConnect
+
+    kite = KiteConnect(api_key=api_key)
+    kite.set_access_token(access_token)
+    
+    stock_symbol = request.form['stockSymbolSell']
+    quantity = int(request.form['quantity'])
+
+    # Define order details for a market sell order
+    order_details = {
+        "tradingsymbol": stock_symbol,
+        "exchange": "NSE",
+        "transaction_type": "SELL",
+        "quantity": quantity,
+        "order_type": "MARKET",
+        "price": None,
+        "product": "MIS"
+    }
+
+    # Place the sell order
+    try:
+        order_id = kite.place_order(variety=kite.VARIETY_REGULAR, **order_details)
+        result = "Sell order placed successfully. Order ID: " + str(order_id)
+    except Exception as e:
+        result = "Error placing sell order: " + str(e)
+
+    return result
+
 @app.route('/logout')
 def logout():
      session.pop('user_id',None)
      return render_template('login.html')
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000,  debug=True)
-
