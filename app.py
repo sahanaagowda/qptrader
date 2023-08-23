@@ -134,5 +134,5 @@ def place_sell_order():
 def logout():
      session.pop('user_id',None)
      return render_template('login.html')
-if __name__ == "__main__"
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000,  debug=True)
