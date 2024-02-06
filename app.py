@@ -31,11 +31,11 @@ users.append(User(id=3, username='Carlos', password='somethingsimple'))
 
 
 app = Flask(__name__)
-app.secret_key = '4nnyecpuzmxev4q1xq7s61oxloqowai8'
+app.secret_key = 'fnyhwrbc1fyfulg3opt6pkj25nagxphi'
 
 # Replace with your actual API key and access token
-api_key = "59wjq1il52jdm0t4"
-access_token = "ATSSvrv6k9Fib2nF8Mv46V6j3VomcYk5"
+api_key = "nou76gvyfsugbu6q"
+access_token = "vvRTk0MStqd8GWNJwmgDw4MRUqSr5bO1"
 BASE_URL = 'https://kite.zerodha.com/'
 
 

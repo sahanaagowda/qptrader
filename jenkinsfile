@@ -1,0 +1,20 @@
+pipeline{
+    agent any
+    
+    stages{
+         stage ('BUILD') {
+             steps{
+               sh 'docker build -t qptrader:qp1.0 '   
+               sh 'sleep 5'
+             }
+        }
+    
+        stage ('DEPLOY') {
+            steps{
+            sh 'docker run -d 8000:8000 qptrader:qp1.0'
+            sh 'sleep 5'
+            }
+        }
+    }
+    
+}
