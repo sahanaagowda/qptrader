@@ -4,14 +4,14 @@ pipeline{
     stages{
          stage ('BUILD') {
              steps{
-               sh 'docker build -t qptrader:qp1.0 .'   
+               sh 'docker build -t qptrader:1.1 .'   
                sh 'sleep 5'
              }
         }
     
         stage ('DEPLOY') {
             steps{
-            sh 'docker run -d docker.io/library/qptrader:qp1.0 8000:8000'
+            sh 'docker run -d -p 8000:8000 qptrader:1.1'
             sh 'sleep 5'
             }
         }
