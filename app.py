@@ -35,7 +35,7 @@ app.secret_key = 'fnyhwrbc1fyfulg3opt6pkj25nagxphi'
 
 # Replace with your actual API key and access token
 api_key = "nou76gvyfsugbu6q"
-access_token = "vvRTk0MStqd8GWNJwmgDw4MRUqSr5bO1"
+access_token = "sJOk0av10sE6IXx339ivDTw2wIfKp9Dt"
 BASE_URL = 'https://kite.zerodha.com/'
 
 
