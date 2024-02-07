@@ -137,7 +137,7 @@ def get_last_traded_price_and_profit_loss():
         elif position['type'] == 'Sell':
             profit_loss = (average_price - last_traded_price) * quantity
         else:
-            profit_loss = 0.0
+            profit_loss = (average_price - last_traded_price) * quantity
 
         # Calculate change percentage
         if average_price != 0:
