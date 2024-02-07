@@ -120,6 +120,29 @@ def get_last_traded_price(stock_symbol):
     else:
         return None
 
+
+def p_n_l():
+
+    # Replace with the actual API endpoint provided by Zerodha for last pnl price
+    api_url = f"https://api.kite.trade/portfolio/positions"
+
+    # Include your API key in the headers
+    headers = {
+        "X-Kite-Version": "3",
+        "Authorization": f"token {api_key}:{access_token}"
+    }
+
+    # Make an API request
+    response = requests.get(api_url, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        p_n_l = data["net"]["pnl"]
+        return p_n_l
+    else:
+        return None
+
+
 @app.route('/get_last_traded_price_and_profit_loss')
 def get_last_traded_price_and_profit_loss():
     stock_symbol = request.args.get('symbol')
@@ -224,7 +247,7 @@ def place_buy_order():
                                 'quantity': quantity,
                                 'average_price': position['average_price'],
                                 'last_traded_price': last_traded_price,
-                                'profit_loss': profit_loss,
+                                'profit_loss': p_n_l,
                                 'change': change_percentage
                             })
 
@@ -292,7 +315,7 @@ def place_sell_order():
                     # Update the existing position with the new sell details
                     existing_position['quantity'] -= quantity
                     existing_position['average_price'] = average_price
-                    existing_position['profit_loss'] = profit_loss
+                    existing_position['profit_loss'] = p_n_l
                     existing_position['change_percentage'] = change_percentage
 
                 else:
@@ -304,7 +327,7 @@ def place_sell_order():
                         'quantity': -quantity,  # Indicate a sell with negative quantity
                         'average_price': average_price,
                         'last_traded_price': last_traded_price,
-                        'profit_loss': profit_loss,
+                        'profit_loss': p_n_l,
                         'change_percentage': change_percentage
                     })
                 return render_template('trade.html', order_confirmation=f"Sell order placed successfully. Order ID: {order_id}")
