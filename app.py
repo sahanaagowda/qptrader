@@ -121,7 +121,7 @@ def get_last_traded_price(stock_symbol):
         return None
 
 
-def p_n_l():
+def get_p_n_l():
 
     # Replace with the actual API endpoint provided by Zerodha for last pnl price
     api_url = f"https://api.kite.trade/portfolio/positions"
@@ -141,12 +141,12 @@ def p_n_l():
         return p_n_l
     else:
         return None
-    position['profit_loss'] = p_n_l
 
 @app.route('/get_last_traded_price_and_profit_loss')
 def get_last_traded_price_and_profit_loss():
     stock_symbol = request.args.get('symbol')
     last_traded_price = get_last_traded_price(stock_symbol)
+    profit_loss = get_p_n_l
 
     # Fetch the average price from the position details
     position = next((p for p in position_details if p['symbol'] == stock_symbol), None)
@@ -155,12 +155,12 @@ def get_last_traded_price_and_profit_loss():
         quantity = position['quantity']
 
         # Calculate profit/loss and change percentage
-        if position['type'] == 'Buy':
-            profit_loss = (last_traded_price - average_price) * quantity
-        elif position['type'] == 'Sell':
-            profit_loss = (average_price - last_traded_price) * quantity
-        else:
-            profit_loss = (average_price - last_traded_price) * quantity
+        #if position['type'] == 'Buy':
+        #    profit_loss = (last_traded_price - average_price) * quantity
+        #elif position['type'] == 'Sell':
+        #    profit_loss = (average_price - last_traded_price) * quantity
+        #else:
+        #    profit_loss = (average_price - last_traded_price) * quantity
 
         # Calculate change percentage
         if average_price != 0:
@@ -169,12 +169,12 @@ def get_last_traded_price_and_profit_loss():
             change_percentage = 0.0
 
         # Update the position details with profit/loss and change percentage
-        #position['profit_loss'] = p_n_l
+        # position['profit_loss'] = p_n_l
         position['change_percentage'] = change_percentage
 
         data = {
             "last_traded_price": last_traded_price,
-            #"profit_loss": p_n_l,
+            "profit_loss": profit_loss,
             "change_percentage": change_percentage
         }
         return jsonify(data)
@@ -200,6 +200,7 @@ def place_buy_order():
 
     try:
         last_traded_price = get_last_traded_price(stock_symbol)
+        profit_loss = get_p_n_l
         order_id = kite.place_order(variety=kite.VARIETY_REGULAR, **order_details)
         trade_details = kite.order_trades(order_id)  # Fetch trade details
 
@@ -247,7 +248,7 @@ def place_buy_order():
                                 'quantity': quantity,
                                 'average_price': position['average_price'],
                                 'last_traded_price': last_traded_price,
-                                'profit_loss': p_n_l,
+                                'profit_loss': profit_loss,
                                 'change': change_percentage
                             })
 
@@ -284,6 +285,7 @@ def place_sell_order():
 
     try:
         last_traded_price = get_last_traded_price(stock_symbol)
+        profit_loss = get_p_n_l
         order_id = kite.place_order(variety=kite.VARIETY_REGULAR, **order_details)
         trade_details = kite.order_trades(order_id)  # Fetch trade details
 
@@ -292,8 +294,8 @@ def place_sell_order():
 
             if last_traded_price is not None:
                 if order_details['transaction_type'] == 'SELL':
-                    profit_loss = (average_price - last_traded_price) * quantity
-
+                    #profit_loss = (average_price - last_traded_price) * quantity
+                    
                     if average_price != 0:
                         change_percentage = ((average_price - last_traded_price) / average_price) * 100
                     else:
@@ -315,7 +317,7 @@ def place_sell_order():
                     # Update the existing position with the new sell details
                     existing_position['quantity'] -= quantity
                     existing_position['average_price'] = average_price
-                    existing_position['profit_loss'] = p_n_l
+                    existing_position['profit_loss'] = profit_loss
                     existing_position['change_percentage'] = change_percentage
 
                 else:
@@ -327,7 +329,7 @@ def place_sell_order():
                         'quantity': -quantity,  # Indicate a sell with negative quantity
                         'average_price': average_price,
                         'last_traded_price': last_traded_price,
-                        'profit_loss': p_n_l,
+                        'profit_loss': profit_loss
                         'change_percentage': change_percentage
                     })
                 return render_template('trade.html', order_confirmation=f"Sell order placed successfully. Order ID: {order_id}")
