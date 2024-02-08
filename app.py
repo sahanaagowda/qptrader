@@ -169,12 +169,12 @@ def get_last_traded_price_and_profit_loss():
             change_percentage = 0.0
 
         # Update the position details with profit/loss and change percentage
-        position['profit_loss'] = profit_loss
+        position['profit_loss'] = p_n_l
         position['change_percentage'] = change_percentage
 
         data = {
             "last_traded_price": last_traded_price,
-            "profit_loss": profit_loss,
+            "profit_loss": p_n_l,
             "change_percentage": change_percentage
         }
         return jsonify(data)
